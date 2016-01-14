@@ -1,18 +1,36 @@
 var gulp = require('gulp');
 var connect = require('gulp-connect');
 var less = require('gulp-less');
-var gulp = require("gulp");
-var babel = require("gulp-babel");
+var babelify = require("babelify");
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 gulp.task('default', ['connect', 'build', 'less', 'watch']);
 
 gulp.task("build", function () {
-  return gulp.src("app/javascript/grid.js")
-    .pipe(babel({
-        presets: ['es2015']
-    }))
-    .pipe(gulp.dest("dist"));
-})
+    return browserify({
+        entries: ['app/javascript/grid.js']
+    })
+    .on('error', function(err) { console.error(err); this.emit('end'); })
+    .transform('babelify', {presets: ["es2015"]})
+    .bundle()
+    .pipe(source('grid.js'))
+    .pipe(buffer())
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task("buildtests", function () {
+    browserify({
+        entries: ['test/tests.js']
+    })
+    .on('error', function(err) { console.error(err); this.emit('end'); })
+    .transform('babelify', {presets: ["es2015"]})
+    .bundle()
+    .pipe(source('tests.js'))
+    .pipe(buffer())
+    .pipe(gulp.dest('test-build'));
+});
 
 gulp.task('connect', function () {
     connect.server({

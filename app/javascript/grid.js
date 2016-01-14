@@ -1,10 +1,8 @@
-'use strict';
-
-const COLOURS = ['red', 'green', 'blue', 'yellow'];
+export const COLOURS = ['red', 'green', 'blue', 'yellow'];
 const MAX_X = 10;
 const MAX_Y = 10;
 
-class Block {
+export class Block {
     constructor (x, y) {
         this.x = x;
         this.y = y;
@@ -12,7 +10,7 @@ class Block {
     }
 }
 
-class BlockGrid {
+export class BlockGrid {
     constructor () {
         this.grid = [];
 
