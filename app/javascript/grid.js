@@ -1,5 +1,5 @@
 export const COLOURS = ['red', 'green', 'blue', 'yellow'];
-export const EMPTY_COLOUR = 'black';
+export const EMPTY_COLOUR = 'transparent';
 const MAX_X = 10;
 const MAX_Y = 10;
 
@@ -54,11 +54,12 @@ export class BlockGrid {
 					blockEl = document.createElement('div');
 
 				blockEl.id = id;
-				blockEl.className = 'block';
 
 				if(block.blank) {
+					blockEl.className = 'block blank';
 					blockEl.style.background = EMPTY_COLOUR;
 				} else {
+					blockEl.className = 'block';
 					blockEl.style.background = block.colour;
 					//blockEl.innerText = `${x},${y}  t:${block.tagForRemoval || ''}`;
 					blockEl.addEventListener('click', (evt) => this.blockClicked(evt, block));
